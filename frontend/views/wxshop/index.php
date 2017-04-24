@@ -47,10 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 
-    <script>
-
-
-    </script>
     <?php
     $this->registerJsFile("/wx_shop/frontend/web/js/btnclick.js", ["depends" => [\yii\web\JqueryAsset::className()]]);
 

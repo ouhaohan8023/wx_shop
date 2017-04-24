@@ -70,7 +70,7 @@ class WxshopController extends Controller
             'mnum' => $mnum,
 
         ]);
-    }
+    }//一级分类展现
 
     public function actionData($id){
 //        return $id;
@@ -81,21 +81,75 @@ class WxshopController extends Controller
 //        $data = json_encode($query);
         $data = json_encode($data);
         return $data;
-    }
+    }//一级分类点击ajax返回二级分类的数据
 
     public function actionSec($id){
         $query = Wxshop::find()->where(['s_2_level'=>$id])->all();
-        if(isset($query)){
+        $num = count($query);
+        if($num != 0){
             foreach($query as $key => $value){
                 $data[$key] = $value->attributes;
             };
-            var_dump($data);die;
+//            var_dump($data);die;
         }else{
-            echo 111;die;
+            $data = NULL;
+        }
+        $sec = WxLevel2::find()->where(['l_2_1'=>$data[0]['s_1_level']])->all();//如果第二分类相同,那么肯定也都属于同样的第一分类
+        $num_sec = count($sec);
+        if($num_sec != 0){
+            foreach($sec as $key => $value){
+                $data_sec[$key] = $value->attributes;
+            };
+//            var_dump($data);die;
+        }else{
+            $data_sec = NULL;
         }
         return $this->render('sec',[
             'data' => $data,
+            'num' => $num,
+            'data_sec' => $data_sec,
+            'num_sec' => $num_sec,
         ]);
+    }//二级分类展现
+
+    public function actionSdata($id){
+        $query = Wxshop::find()->where(['s_2_level'=>$id])->all();
+        if(count($query)!=0){
+            foreach($query as $key => $value){
+                $data[$key] = $value->attributes;
+            };
+//        $data = json_encode($query);
+            $data = json_encode($data);
+            return $data;
+        }else{
+            return '000';
+        }
+
+    }//二级分类点击ajax返回商品的数据
+
+    public function actionDes($id){
+//        $this->layout = false;
+        $query = Wxshop::find()->where(['s_id'=>$id])->one();
+        if(count($query) != 0){
+            //        var_dump($query['s_id']);die;
+            $dis = explode(',,',$query['s_d_pic']);
+            $num = count($dis);
+            return $this->render('des', [
+              'query' => $query,
+              'dis' => $dis,
+                'num' => $num,
+            ]);
+        }else{
+            echo '所查询商品不存在';
+            die;
+        }
+    }//商品详情
+
+    public function actionOrder($id,$input){
+//        var_dump($input);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".Yii::$app->params['Appid']."&redirect_uri=&response_type=
+code&scope=snsapi_userinfo&state=STATE#wechat_redirect ";
+        var_dump($_GET);
     }
 
     /**
