@@ -69,7 +69,9 @@ $this->title = 'My Yii Application';
 <!--    icon        start-->
     <div>
         <div class="col-xs-3">
-            <a href="wxshop/index"><img src="../web/img/f_1.jpeg" class="img-responsive"></a>
+<!--            <a href="wxshop/index"><img src="../web/img/f_1.jpeg" class="img-responsive"></a>-->
+            <?php echo '<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_uri'].'&response_type=
+code&scope=snsapi_base&state=STATE#wechat_redirect"><img src="../web/img/f_1.jpeg" class="img-responsive"></a>';?>
         </div>
         <div class="col-xs-3">
             <a href=""><img src="../web/img/f_2.jpeg" class="img-responsive"></a>

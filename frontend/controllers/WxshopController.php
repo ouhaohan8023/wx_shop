@@ -6,8 +6,10 @@ use app\models\WxLevel1;
 use app\models\WxLevel1Search;
 use app\models\WxLevel2;
 use app\models\WxShop;
+use app\models\WxShopUser;
 use Yii;
 use app\models\WxshopSearch;
+use yii\helpers\Ouhaohan;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +40,31 @@ class WxshopController extends Controller
      */
     public function actionIndex()
     {
+//        var_dump($_GET);
+        header("Content-Type: text/html; charset=UTF-8");
+        $open = Ouhaohan::getopenid();//获取到用户的基本信息,下一步存入数据库
+        $data1 = (array)json_decode($open);
+        $openid = $data1['openid'];
+        $access_token = $data1['access_token'];
+
+        $findone = WxShopUser::find()->where(['u_openid'=>$openid])->one();
+//        var_dump($findone);
+        if(count($findone)==0){//新用户
+            $url_user = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+            $userinfo = Ouhaohan::getcurl($url_user);
+            $user = (array)json_decode($userinfo);
+//            var_dump($user);die;
+            $model = new WxShopUser();
+            $model->u_openid = $user['openid'];
+            $model->u_wx_name = $user['nickname'];
+            $model->u_time = date('Y-m-d H:i:s',time());
+            $model->save();//未找到用户,新增用户
+        }else{
+            $findone['u_login_times'] = $findone['u_login_times']+1;
+            WxShopUser::updateAll(['u_login_times'=>$findone['u_login_times']],['u_openid'=>$findone['u_openid']]);//记录登录次数
+        }
+
+
 //        $query = WxLevel2::find()->where(['l_2_1'=>1])->all();
 //        foreach($query as $key => $value){
 //            $data[$key] = $value->attributes;
@@ -129,6 +156,7 @@ class WxshopController extends Controller
 
     public function actionDes($id){
 //        $this->layout = false;
+//        Ouhaohan::getopenid();
         $query = Wxshop::find()->where(['s_id'=>$id])->one();
         if(count($query) != 0){
             //        var_dump($query['s_id']);die;
@@ -145,10 +173,12 @@ class WxshopController extends Controller
         }
     }//商品详情
 
-    public function actionOrder($id,$input){
-//        var_dump($input);
+    public function actionOrder(){
+        var_dump($_POST);
+        var_dump($_GET);
+        die;
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".Yii::$app->params['Appid']."&redirect_uri=&response_type=
-code&scope=snsapi_userinfo&state=STATE#wechat_redirect ";
+code&scope=snsapi_base&state=STATE#wechat_redirect ";
         var_dump($_GET);
     }
 

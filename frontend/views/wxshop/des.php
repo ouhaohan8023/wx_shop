@@ -86,7 +86,9 @@ use yii\widgets\DetailView;
                     <h4 class="modal-title" id="myModalLabel">数量规格</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="order" method="get">
+                        <?php echo '<form action="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_url'].$query['s_id'].'&response_type=
+code&scope=snsapi_base&state=STATE#wechat_redirect" method="post">';?>
+<!--                    <form action="" method="get">-->
                         <div class="row" style="line-height: 64px">
                             <input name="s_id" id="s_id" value="<?php echo $query['s_id']?>" hidden="hidden"/>
                             <div class="col-xs-3" style="font-size: 18px">数量: </div>
@@ -104,12 +106,13 @@ use yii\widgets\DetailView;
                             </span>
                             </div>
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button id="sub" type="button" class="btn btn-primary">提交</button>
+                    <button id="sub" type="submit" class="btn btn-primary">提交</button>
                 </div>
+                </form>
+
             </div>
         </div>
     </div>
