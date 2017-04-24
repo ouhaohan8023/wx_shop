@@ -5,8 +5,8 @@ namespace frontend\controllers;
 use app\models\WxLevel1;
 use app\models\WxLevel1Search;
 use app\models\WxLevel2;
+use app\models\WxShop;
 use Yii;
-use app\models\Wxshop;
 use app\models\WxshopSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -84,7 +84,7 @@ class WxshopController extends Controller
     }//一级分类点击ajax返回二级分类的数据
 
     public function actionSec($id){
-        $query = Wxshop::find()->where(['s_2_level'=>$id])->all();
+        $query = WxShop::find()->where(['s_2_level'=>$id])->all();
         $num = count($query);
         if($num != 0){
             foreach($query as $key => $value){

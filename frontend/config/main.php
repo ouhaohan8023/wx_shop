@@ -7,7 +7,8 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+  'language' => 'zh-CN',//配置成中文
+  'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
@@ -69,5 +70,14 @@ return [
         ],
       ],
     ],
+  'as access' => [
+    'class' => 'mdm\admin\components\AccessControl',
+    'allowActions' => [
+      //这里是允许访问的action
+      //controller/action
+
+      '*',
+    ],
+  ],
     'params' => $params,
 ];
