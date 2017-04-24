@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $appid = Yii::$app->params['Appid'];
                 for($i=0;$i<$num;$i++){
 //                    echo '<div class="col-xs-6 ppp" style="padding: 1px;border:#F8F8FF solid 1px"><a href="des?id='.$data[$i]["s_id"].'"><img src="'.$data[$i]["s_f_pic"].'" class="img-responsive" style="padding:1px;border:#FFFAF0 solid 1px"><div style="text-align: center">'.$data[$i]["s_name"].'</div></a></div>';
-                    echo '<div class="col-xs-6 ppp" style="padding: 1px;border:#F8F8FF solid 1px"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_uri'].'&response_type=
+                    echo '<div class="col-xs-6 ppp" style="padding: 1px;border:#F8F8FF solid 1px"><a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_uri'].$data[$i]["s_id"].'&response_type=
 code&scope=snsapi_userinfo&state=STATE#wechat_redirect"><img src="'.$data[$i]["s_f_pic"].'" class="img-responsive" style="padding:1px;border:#FFFAF0 solid 1px"><div style="text-align: center">'.$data[$i]["s_name"].'</div></a></div>';
                 }
                 ?>
