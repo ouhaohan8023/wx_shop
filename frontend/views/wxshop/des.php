@@ -86,11 +86,13 @@ use yii\widgets\DetailView;
                     <h4 class="modal-title" id="myModalLabel">数量规格</h4>
                 </div>
                 <div class="modal-body">
-                        <?php echo '<form action="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_url'].$query['s_id'].'&response_type=
-code&scope=snsapi_base&state=STATE#wechat_redirect" method="post">';?>
-<!--                    <form action="" method="get">-->
+<!--                        --><?php //echo '<form action="https://open.weixin.qq.com/connect/oauth2/authorize?appid='.Yii::$app->params['Appid'].'&redirect_uri='.Yii::$app->params['redirect_url'].'&response_type=
+//code&scope=snsapi_base&state=STATE#wechat_redirect" method="post">';?>
+                    <form action="order" method="post">
                         <div class="row" style="line-height: 64px">
                             <input name="s_id" id="s_id" value="<?php echo $query['s_id']?>" hidden="hidden"/>
+                            <input name="openid" id="s_id" value="<?php echo $openid?>" hidden="hidden"/>
+                            <input type="" name="_csrf-frontend" id='csrf' value="<?= Yii::$app->request->csrfToken ?>">
                             <div class="col-xs-3" style="font-size: 18px">数量: </div>
                             <div class="col-xs-3 ppp" style="text-align: right">
                                 <span class="input-group-btn">

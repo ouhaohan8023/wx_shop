@@ -157,29 +157,48 @@ class WxshopController extends Controller
     public function actionDes($id){
 //        $this->layout = false;
 //        Ouhaohan::getopenid();
-        $query = Wxshop::find()->where(['s_id'=>$id])->one();
-        if(count($query) != 0){
-            //        var_dump($query['s_id']);die;
-            $dis = explode(',,',$query['s_d_pic']);
-            $num = count($dis);
-            return $this->render('des', [
-              'query' => $query,
-              'dis' => $dis,
-                'num' => $num,
-            ]);
+//        var_dump($_GET);die;
+        $open = Ouhaohan::getopenid();//获取到用户的基本信息,下一步存入数据库
+        $data1 = (array)json_decode($open);
+        if(isset($data1['openid'])){
+            $openid = $data1['openid'];
+            $access_token = $data1['access_token'];
+//        var_dump($openid);die;
+            $query = Wxshop::find()->where(['s_id'=>$id])->one();
+            if(count($query) != 0){
+                //        var_dump($query['s_id']);die;
+                $dis = explode(',,',$query['s_d_pic']);
+                $num = count($dis);
+                return $this->render('des', [
+                  'query' => $query,
+                  'dis' => $dis,
+                  'num' => $num,
+                  'openid' => $openid,
+                ]);
+            }else{
+                echo '所查询商品不存在';
+                die;
+            }
         }else{
-            echo '所查询商品不存在';
-            die;
+            $this->redirect(['/site/index']);
         }
+
     }//商品详情
+//    public $enableCsrfValidation = false;
 
     public function actionOrder(){
-        var_dump($_POST);
-        var_dump($_GET);
-        die;
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=".Yii::$app->params['Appid']."&redirect_uri=&response_type=
-code&scope=snsapi_base&state=STATE#wechat_redirect ";
-        var_dump($_GET);
+
+//        var_dump($_POST);
+        $s_id = $_POST['s_id'];//商品id
+        $openid = $_POST['openid'];//用户openid
+        $input = $_POST['input'];//下单数量
+
+        $user = WxShopUser::find()->where(['u_openid'=>$openid])->one();
+        $shop = WxShop::find()->where(['s_id'=>$s_id])->one();
+        return $this->render('order',[
+           'user' => $user,
+            'shop' => $shop,
+        ]);
     }
 
     /**
