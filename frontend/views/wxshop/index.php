@@ -19,11 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="wxshop-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<!---->
-<!--    <p>-->
-<!--        --><?//= Html::a('Create Wxshop', ['create'], ['class' => 'btn btn-success']) ?>
-<!--    </p>-->
     <div class="row fff">
         <div class="col-xs-3 ppp">
             <div id="btn" class="btn-group-vertical" role="group" aria-label="Vertical button group">
